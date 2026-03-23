@@ -542,7 +542,7 @@
         // -- 获取动态壁纸逻辑 --
         function loadDynamicWallpaper() {
             // 请求我们自己写的本地 Node.js 后端
-            fetch('http://yuowwosdashboard.onrender.com/api/random-wallpaper')
+            fetch('https://yuowwosdashboard.onrender.com/api/random-wallpaper')
                 .then(res => res.json())
                 .then(data => {
                     if(data.videoUrl) {
