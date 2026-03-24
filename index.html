@@ -521,7 +521,7 @@
         // -- 获取天气的逻辑 --
         function getWeather() {
             // 请求 wttr.in 接口，%l 代表基于 IP 的城市，%t 代表当前温度
-            fetch("https://wttr.in/Pudong?format=%c\ShanghaiTech\:%C,+%t")
+            fetch("https://wttr.in/shanghai%20pudong?format=%c\ShanghaiTech\:%C,+%t")
                 .then(res => {
                     if (!res.ok) throw new Error("天气请求失败");
                     return res.text();
@@ -542,7 +542,7 @@
         // -- 获取动态壁纸逻辑 --
         function loadDynamicWallpaper() {
             // 请求我们自己写的本地 Node.js 后端
-            fetch('https://yuowwosdashboard.onrender.com/api/random-wallpaper')
+            fetch('http://yuowwosdashboard.onrender.com/api/random-wallpaper')
                 .then(res => res.json())
                 .then(data => {
                     if(data.videoUrl) {
