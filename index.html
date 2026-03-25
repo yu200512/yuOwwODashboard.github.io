@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Grid+Double+Ink:slnt,wght,CRSV,SZP1,SZP2@-8,100..900,0,66,49&family=Bitcount+Prop+Single:wght@100..900&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的个人导航主页</title>
@@ -44,7 +47,7 @@
             /* 极其关键：给透明图片加一层柔和的阴影，防止在复杂的动态壁纸上看不清 */
             filter: drop-shadow(0 0 12px rgb(251, 250, 250, 0.9)); 
             transition: transform 0.3s ease;
-            filter: invert(1);
+            filter: invert(1);/* 反转颜色，让白色变黑色，黑色变透明，这样在亮色壁纸上也能清晰可见 */
             mix-blend-mode: difference;
         }
 
@@ -294,10 +297,10 @@
             flex-direction: column;
             align-items: center; 
         }
-
+/*第二页的分割线*/
         /* 【替换】第二屏的样式 */
         .second-page {
-            height: 100vh; /* 同样强制占据正好一屏幕的高度 */
+            min-height: 200vh; /* 同样强制占据正好一屏幕的高度 */
             scroll-snap-align: start; /* 核心：滚动时瞬间对齐顶部 */
             
             /* 下面的毛玻璃样式保持不变 */
@@ -308,91 +311,182 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-top: 1px solid rgba(255, 255, 255, 0.4);
-            padding: 60px 20px;
+            
+            /* 👇 修复1：明确内容区域距离顶部 250px */
+            padding: 250px 120px;
             box-sizing: border-box;
+
+            /* 👇 修复2：删除了冲突的 flex 属性，保留纯净的 grid */
+            display: grid;                        
+            grid-template-columns: 340px 1fr;       
+            gap: 40px;                            
+
+            /* 👇 修复3：强制左右两块内容从最顶端开始对齐，不要垂直居中下坠 */
+            align-items: start; 
+
+            position: relative;
+
+            z-index: 1; /* 🌟 核心开关：这相当于告诉浏览器“这个毛玻璃是一个独立的纸箱”，里面的东西绝对不能掉出去 */
+
+            /* 👇 性能优化魔法：强制开启 3D 硬件加速 👇 */
+            transform: translateZ(0); 
+            -webkit-transform: translateZ(0); /* 兼容 Safari */
+            
+            /* 👇 告诉浏览器提前准备好渲染毛玻璃和滚动位置 👇 */
+            will-change: transform, backdrop-filter;
+
+        }
+
+        /* --- 中间层：黑色背景衬底 --- */
+        .second-page::before {
+            content: '';
+            position: absolute;
+            
+            /* 控制衬底的大小，这里让它铺满整个毛玻璃板 */
+            top: 60px;
+            bottom: 60px;
+            left: 20px;
+            right: 20px;
+            
+            background-image: url('assets/Images/background2.png'); /* 换成你的黑图路径 */
+            background-size: 100% 100%; /* 拉伸铺满整个区域 */
+            background-position: center;
+            
+            /* 👇 终极图层魔法 👇 */
+            z-index: -1; /* 设为负数！它会自动沉到 half-side 文字和白线的下方，但被父级的纸箱托底，稳稳停在毛玻璃上方！ */
+            
+            /* 💡 高级设计建议（可选）： */
+            /* 给你的黑图加一点点透明度，让底层的毛玻璃质感能微微透上来和黑图融合，不会显得太死板 */
+            opacity: 0.85; 
+            
+            /* 如果你的 second-page 有圆角，加上这行能让图片跟着变圆 */
+            border-radius: inherit; 
+        }
+    /* --- 最顶层：分割线 --- */
+        .second-page::after {
+            content: '';          
+            position: absolute;   
+            top: 250px;            
+            bottom: 250px;         
+            
+            /* 👇 删掉 left: 33%; 替换为下面这行终极计算公式 👇 */
+            left: 480px; 
+            transform: translateX(0%); 
+            
+            width: 1px;           
+            background: rgba(255, 255, 255, 0.2); 
+        }
+    /* --- 第二页的左侧内容样式 --- */
+        .meme-img {
+            width: 100%;             
+            object-fit: cover;       
+            margin-top: 0;           
+            margin-bottom: 25px;     
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); 
+            
+            /* 👇 修复5：消除 HTML 图片标签自带的微小行高间隙，确保像素级平齐 */
+            display: block; 
+        }
+
+        /* 1. 给左侧的 half-side 开启 Flex 垂直布局，让里面的东西全部水平居中 */
+        .profile-section {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: center; /* 头像和文字框在 320px 内部整体水平居中 */
+            padding-top: 0 !important; /* 确保不产生额外的顶部内边距 */
+        }
+        .profile-section h2{
+            font-family: "Bitcount Grid Double Ink", system-ui;
+            font-size: 32px;
+
         }
 
-        .second-page h2 {
-            font-size: 28px;
-            color: #222;
-            text-shadow: 0 2px 4px rgba(255,255,255,0.8); /* 防止深色壁纸导致黑字看不清 */
-            margin-bottom: 20px;
+        .avatar-container {
+            width: 180px;      /* 确定圆形头像的大小，在 320px 里显得比较精致 */
+            height: 180px;
+            border-radius: 50%; /* 核心魔法：强行变成绝对的圆形 */
+            
+            /* 设置一个高级的“浮雕”圆形框，带一点点透明白色光晕 */
+            border: 4px solid rgba(255, 255, 255, 0.4); 
+            
+            /* 双重阴影魔法：外部产生深色投影增强层次感，内部产生微微的白光提升通透感 */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 
+                        0 0 15px rgba(255, 255, 255, 0.1) inset; 
+            
+            overflow: hidden;   /* 核心魔法：把圆形边界外的方形图片直接“咔嚓”裁掉 */
+            margin-bottom: 30px; /* 和下方文字框的呼吸距离 */
+            margin-top: 0;      /* 确保顶部死死卡住 padding 60px 的基准线 */
+            
+            /* 适配我们之前的 GPU 加速，防止滚动时抖动 */
+            transform: translateZ(0); 
+            -webkit-transform: translateZ(0);
         }
 
-        /* -- 第二页双栏布局 -- */
-        .split-container {
-            display: flex;
+        .profile-img {
             width: 100%;
-            max-width: 1200px; /* 限制最大宽度，让两栏在超宽显示器上也不会离得太远 */
-            height: calc(100% - 40px); /* 留出一点上下边距 */
-            margin: 0 auto;
-            gap: 40px; /* 左右两块卡片之间的间距 */
+            height: 100%;
+            object-fit: cover;  /* 保证图片不失真、不拉伸地填充整个圆形容器 */
+            border-radius: 0;   /* 取消之前的圆角，改由容器进行裁剪 */
+            box-shadow: none;   /* 取消之前直接加在图片上的阴影 */
+            margin: 0;          /* 取消之前的任何外边距 */
+            display: block;
         }
-
-        /* 左右面板的共同玻璃卡片样式 */
-        .left-panel, .right-panel {
-            flex: 1; /* 核心：让左右两边严格平分 50% 宽度 */
-            background: rgba(255, 255, 255, 0.2); /* 在原本的毛玻璃上再叠一层微微的白色亮光 */
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); /* 轻微的阴影增加立体感 */
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            text-align: left; /* 日志文字靠左对齐更利于阅读 */
-            overflow-y: auto; /* 如果以后日志写得太长，允许卡片内部上下滚动 */
-        }
-
-        .left-panel h2, .right-panel h2 {
-            margin-top: 0;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.5); /* 标题下方加一条分割线 */
-            padding-bottom: 15px;
-            margin-bottom: 25px;
-            font-size: 24px;
-            color: #222;
-        }
-
-        /* 更新日志列表的具体排版 */
-        .changelog-list {
-            list-style: none; /* 去掉默认的小黑点 */
-            padding: 0;
-            margin: 0;
-            line-height: 1.8;
-        }
-
-        .changelog-list li {
+        /* --- 下方 Profile 文字排版 --- */
+        .profile-content h2 {
+            margin-top: 0;           /* 抹平标题自带的顶部留白 */
+            font-family: "Bitcount Prop Single", system-ui;
+            font-size: 24px;         /* 标题稍微大一点 */
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3); /* 在 Profile 标题下加一条半透明下划线，极具排版美感 */
+            padding-bottom: 10px;    /* 线和文字的距离 */
             margin-bottom: 15px;
-            font-size: 16px;
-            color: #333;
         }
 
-        /* 日志日期的小标签美化 */
-        .changelog-list .date {
-            display: inline-block;
-            background: rgba(0, 0, 0, 0.1);
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 13px;
-            font-family: monospace;
-            margin-right: 12px;
-            color: #111;
+        .profile-content p {
+            line-height: 1.6;        /* 增加行距，让大段文字读起来更舒服 */
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9); /* 文字不要用死白，90%的白最护眼高级 */
         }
+
+        /* 3. 下方矩形文字框（暗黑玻璃卡片）魔法 */
+        .profile-box {
+            width: 100%;        /* 撑满 320px 的固定列宽度 */
+            background: rgba(255, 255, 255, 0.08); /* 极细微的白色毛玻璃质感，透出底层的黑图衬底 */
+            
+            /* 加上微微的毛玻璃模糊特效，让黑色衬底上的文字更清晰护眼 */
+            backdrop-filter: blur(5px); 
+            -webkit-backdrop-filter: blur(5px);
+            
+            /* 设置矩形框的圆角、边框、投影，产生高级的“悬浮卡片”感 */
+            border-radius: 12px; 
+            border: 1px solid rgba(255, 255, 255, 0.15); /* 极细的科技感边框 */
+            padding: 25px;      /* 框内部文字的呼吸感内边距 */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3); /* 深色的外投影，让卡片立起来 */
+            
+            /* 确保 padding 不会把卡片挤出 320px 的格子 */
+            box-sizing: border-box; 
+        }
+
         
-        /* 美化内部滚动条（如果是 Webkit 浏览器） */
-        .left-panel::-webkit-scrollbar, .right-panel::-webkit-scrollbar {
-            width: 6px;
+    /* --- 第二页的右侧内容样式 --- */
+        .half-side {
+    /* 因为你要求“直接在毛玻璃上编辑，不要额外边框” */
+    /* 所以这里绝对不写 background、border 或 box-shadow */
+             color: white; /* 设置文字颜色为白色，适应深色动态壁纸 */
+    /* 如果你需要文字有那种自适应反色的效果，也可以在这里加上 mix-blend-mode: difference; */
         }
-        .left-panel::-webkit-scrollbar-thumb, .right-panel::-webkit-scrollbar-thumb {
-            background: rgba(0,0,0,0.2);
-            border-radius: 3px;
+/* 适配：如果屏幕小于 900px 折叠时，让文字框在手机上不要撑太宽 */
+        @media (max-width: 900px) {
+            .profile-box {
+                width: 90%; /* 在手机端变成上下排版时，卡片不要撑满屏幕，两边留白 */
+                margin: 0 auto; /* 居中显示 */
+            }
         }
     </style>
 </head>
 <body>
     <video id="bg-video" autoplay loop muted playsinline></video>
     <div class="main-content"> ```
-    <img src="title.png" alt="我的主页标题" class="custom-title">
+    <img src="assets/Images/title.png" alt="我的主页标题" class="custom-title">
     <div class="card">
         <div id="quote">Loading today's inspiration...</div>
         <div id="author"></div>
@@ -433,22 +527,27 @@
         </a>
     </div>
 
-    </div> <div class="second-page">
-        <div class="split-container">
-            <div class="left-panel">
-                <h2>Updates & Changes</h2>
-                <ul class="changelog-list">
-                    <li><span class="date">今天</span> 成功接入了 Node.js 全栈动态动漫壁纸！🎉</li>
-                    <li><span class="date">最近</span> 实现了丝滑的 CSS 纯代码全屏滚动翻页。</li>
-                    <li><span class="date">最近</span> 彻底搞懂了跨域限制，API 名言组件完美运行。</li>
-                    <li><span class="date">早期</span> 新增了底部毛玻璃菜单与内置音乐播放器。</li>
-                </ul>
+    </div><div class="second-page">
+    
+        <div class="half-side profile-section">
+            <img src="assets/Images/meme 2026.3.png" alt="My meme of the month" class="meme-img">
+            <h2>Profile</h2>
+            <div class="avatar-container">
+                <img src="assets/Images/图层 2.png" alt="My Meme Avatar" class="profile-img">
             </div>
-            <div class="right-panel">
-                <h2>To-Do List</h2>
-                <p style="color: #555; margin-top: 20px;">（右侧空间已就绪，等待注入 To-Do List 灵魂...）</p>
+
+            <div class="profile-content profile-box">
+                <h2>YuOwwO</h2>
+                <p>Hello! I'm a passionate web developer with a love for creating dynamic and visually stunning websites. With a background in electronic engineering and a keen eye for design, I specialize in crafting seamless user experiences that blend functionality with aesthetics. When I'm not coding, you can find me exploring the latest tech trends, experimenting with new frameworks, or sharing my knowledge through blogging and open-source contributions. Let's connect and build something amazing together!</p>
+            </p>
             </div>
         </div>
+
+        <div class="half-side">
+            <h2>Change Logs</h2>
+            <p></p>
+        </div>
+
     </div>
 
    <div class="bottom-menu-container">
@@ -544,7 +643,7 @@
         // -- 获取动态壁纸逻辑 --
         function loadDynamicWallpaper() {
             // 请求我们自己写的本地 Node.js 后端
-            fetch('https://yuowwosdashboard.onrender.com/api/random-wallpaper')
+            fetch('http://localhost:3000/api/random-wallpaper')
                 .then(res => res.json())
                 .then(data => {
                     if(data.videoUrl) {
