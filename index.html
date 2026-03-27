@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <link rel="icon" href="assets/Images/logo.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Grid+Double+Ink:slnt,wght,CRSV,SZP1,SZP2@-8,100..900,0,66,49&family=Bitcount+Prop+Single:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Grid+Double+Ink:wght,SZP1,SZP2@100..900,1,1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Carter+One&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的个人导航主页</title>
+    <title>Welcome to discover a new corner of the web</title>
     <style>
         html {
             scroll-snap-type: y mandatory;
@@ -53,11 +55,6 @@
 
         .custom-title:hover {
             transform: scale(1.05); /* 鼠标放上去时会微微放大，增加互动感 */
-        }
-
-        p {
-            color: #666;
-            margin-bottom: 40px;
         }
 
         /* -- 右上角天气组件样式 -- */
@@ -313,7 +310,7 @@
             border-top: 1px solid rgba(255, 255, 255, 0.4);
             
             /* 👇 修复1：明确内容区域距离顶部 250px */
-            padding: 250px 120px;
+            padding: 250px 140px;
             box-sizing: border-box;
 
             /* 👇 修复2：删除了冲突的 flex 属性，保留纯净的 grid */
@@ -334,6 +331,8 @@
             
             /* 👇 告诉浏览器提前准备好渲染毛玻璃和滚动位置 👇 */
             will-change: transform, backdrop-filter;
+
+            text-shadow: 0 0 0px rgba(255,255,255,0.8); /* 给毛玻璃上的文字加一层柔和的白色阴影，增强在动态壁纸上的可读性 */
 
         }
 
@@ -370,11 +369,18 @@
             bottom: 250px;         
             
             /* 👇 删掉 left: 33%; 替换为下面这行终极计算公式 👇 */
-            left: 480px; 
+            left: 500px; 
             transform: translateX(0%); 
             
             width: 1px;           
             background: rgba(255, 255, 255, 0.2); 
+        }
+    /* --- 第二页的整体毛玻璃样式 --- */
+        .half-side {
+            font-family: "Times New Roman", Times, serif;
+    /* 因为你要求“直接在毛玻璃上编辑，不要额外边框” */
+    /* 所以这里绝对不写 background、border 或 box-shadow */
+    /* 如果你需要文字有那种自适应反色的效果，也可以在这里加上 mix-blend-mode: difference; */
         }
     /* --- 第二页的左侧内容样式 --- */
         .meme-img {
@@ -397,7 +403,20 @@
         }
         .profile-section h2{
             font-family: "Bitcount Grid Double Ink", system-ui;
+            font-optical-sizing: auto;
             font-size: 32px;
+            font-style: normal;
+            font-variation-settings:
+                "slnt" 0,
+                "CRSV" 0.5,
+                "ELSH" 0,
+                "ELXP" 0,
+                "SZP1" 49,
+                "SZP2" 77,
+                "XPN1" 0,
+                "XPN2" 0,
+                "YPN1" 0,
+                "YPN2" 0;
 
         }
 
@@ -439,41 +458,225 @@
             border-bottom: 2px solid rgba(255, 255, 255, 0.3); /* 在 Profile 标题下加一条半透明下划线，极具排版美感 */
             padding-bottom: 10px;    /* 线和文字的距离 */
             margin-bottom: 15px;
+            color: white;
         }
 
         .profile-content p {
             line-height: 1.6;        /* 增加行距，让大段文字读起来更舒服 */
             font-size: 16px;
             color: rgba(255, 255, 255, 0.9); /* 文字不要用死白，90%的白最护眼高级 */
+            text-align: left;
         }
 
         /* 3. 下方矩形文字框（暗黑玻璃卡片）魔法 */
         .profile-box {
             width: 100%;        /* 撑满 320px 的固定列宽度 */
-            background: rgba(255, 255, 255, 0.08); /* 极细微的白色毛玻璃质感，透出底层的黑图衬底 */
+            height: auto;
+
+            background: rgba(255, 255, 255, 0); /* 极细微的白色毛玻璃质感，透出底层的黑图衬底 */
             
             /* 加上微微的毛玻璃模糊特效，让黑色衬底上的文字更清晰护眼 */
             backdrop-filter: blur(5px); 
             -webkit-backdrop-filter: blur(5px);
             
             /* 设置矩形框的圆角、边框、投影，产生高级的“悬浮卡片”感 */
-            border-radius: 12px; 
-            border: 1px solid rgba(255, 255, 255, 0.15); /* 极细的科技感边框 */
-            padding: 25px;      /* 框内部文字的呼吸感内边距 */
+            border-radius: 5px; 
+            border: 1px solid rgba(255, 255, 255, 0); /* 极细的科技感边框 */
+            padding: 15px;      /* 框内部文字的呼吸感内边距 */
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3); /* 深色的外投影，让卡片立起来 */
             
             /* 确保 padding 不会把卡片挤出 320px 的格子 */
             box-sizing: border-box; 
         }
 
+        .contact-content h2 {
+            margin-top: 0;           /* 抹平标题自带的顶部留白 */
+            font-family: "Bitcount Prop Single", system-ui;
+            font-size: 24px;         /* 标题稍微大一点 */
+            margin-bottom: 5px;
+            color: white;
+        }
+        /* 1. 按钮容器：2x2 完美网格排版 */
+        .contact-box {
+            width: 100%;             /* 撑满左侧的 340px 区域 */
+            margin-top: 20px;        /* 和上方 Profile 卡片保持呼吸间距 */
+            display: flex;           
+            flex-direction: column;
+            gap: 15px;               /* 按钮之间的缝隙 */
+            box-sizing: border-box;
+        }
+
+ /* =========================================
+           🔗 彩色按钮主体 (垂直居中强化版)
+           ========================================= */
+
+        /* 2. 核心：带光泽感的彩色按钮主体 */
+        .glossy-btn-colored {
+            display: flex;
+            justify-content: space-between; 
+            
+            /* 👇 终极改动1：确保 parent Flex 垂直居中强制生效👇 */
+            align-items: center; 
+            
+            height: 48px;            
+            padding: 0 24px;         
+            text-decoration: none;   
+            color: #ffffff;          
+            font-family: "Carter One", system-ui; 
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            border-radius: 8px;      
+            
+            background-color: var(--btn-color); 
+            /* background-image: linear-gradient(110deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0.0) 50%, rgba(255, 255, 255, 0.05) 100%); */
+            border: 1px solid rgba(0, 0, 0, 0.15); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); 
+            transform: translateZ(0); 
+            transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+            overflow: hidden; 
+            box-sizing: border-box; 
+        }
+
+        /* 3. 按钮内部的图标样式 */
+        .btn-icon {
+            width: 35px;       
+            height: 35px;
+            fill: #ffffff;     
+            
+            /* 👇 终极改动2：彻底消除 inherited 垂直边距 👇 */
+            margin: 0; 
+            
+            display: block;
+            flex-shrink: 0;    
+        }
+
+        /* 👇 终极改动3 (重中之重)：精准点名修正文字 wrapper 👇 */
+        /* 只有文字用 span 包裹才能实现此精准修正 */
+        .glossy-btn-colored span {
+            display: flex;       /* 文字本身也变成一个居中的 flex */
+            align-items: center; /* 确保垂直居中 */
+            
+            height: 100%;       /* 文字 wrapper 撑满按钮高度 */
+            
+            /* 👇 强制重置继承的特殊行高为 1 👇 */
+            /* 这对修正 Bitcount 等特殊字体 baseline 偏差至关重要 */
+            line-height: 1; 
+            
+            margin: 0;          /* 消除继承的 Margins */
+            padding: 0;         /* 消除继承的 Padding */
+            
+            /* 如果做完上面的步骤文字看起来依然偏低，可以启用下面的黑魔法微调 */
+            /* padding-bottom: 2px; /* 根据实际视觉效果，向上下移动 1-2 像素 */
+        }
+
+        /* 4. 悬停状态 (Hover)：对应颜色发光与轻微上浮 */
+        .glossy-btn-colored:hover {
+            /* 悬停时，增加背景的亮度和光泽感 */
+            background-image: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.3) 0%, 
+                rgba(255, 255, 255, 0.1) 45%, 
+                rgba(255, 255, 255, 0.05) 50%, 
+                rgba(255, 255, 255, 0.1) 100%
+            );
+            border-color: rgba(0, 0, 0, 0.1);
+            
+            /* 👇 终极魔法：散发出对应品牌色的光晕！ 👇 */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4),
+                        0 0 20px var(--btn-color); /* 这里的 var(--btn-color) 让光晕也跟着变色！ */
+            
+            transform: translateY(-3px) translateZ(0); /* 向上浮起 */
+        }
+
+        /* 5. 点按状态 (Active)：物理级的被按压塌陷感 */
+        .glossy-btn-colored:active {
+            /* 极其硬核的交互：缩小到 95%，并向下压实！ */
+            transform: scale(0.95) translateY(2px) translateZ(0); 
+            
+            /* 光泽瞬间消失，模拟手指遮挡光线 */
+            background-image: none;
+            
+            /* 阴影变小，因为按钮被按到了底板上 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); 
+            
+            color: rgba(255, 255, 255, 0.8); /* 文字稍微变暗 */
+            
+            /* 按下时必须是瞬间反馈，取消延迟过渡 */
+            transition: all 0.05s ease; 
+        }
+
+        /* 1. 确保父级容器依然是完美的 Flex 居中 */
+        .email-btn {
+            position: relative; /* 必须是 relative，作为伪元素的参考坐标系 */
+            display: flex;
+            align-items: center; 
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        /* 2. 初始文字：确保它依然死死钉在水平轴线上 */
+        .email-btn .btn-text {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            line-height: 1; /* 强制重置行高 */
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            color: rgba(0, 0, 0, 0.85);
+        }
+
+        /* 3. 核心：将伪元素设为绝对定位，不占用物理空间 */
+        .email-btn::after {
+            content: attr(data-email); 
+            position: absolute;
+            
+            /* 👇 关键：靠右对齐，但垂直方向强制居中 👇 */
+            right: 24px; 
+            top: 50%;
+            transform: translateY(-50%) translateX(15px); /* Y轴居中，X轴预备滑入 */
+            
+            font-size: 17px; 
+            letter-spacing: 1px;
+            color: rgba(0, 0, 0, 0.85);
+            
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* 4. 悬停状态：原文字消失，新文字滑入 */
+        .email-btn:hover .btn-text {
+            opacity: 0;
+            transform: translateX(-10px); /* 稍微左移，产生让位感 */
+        }
+
+        .email-btn:hover::after {
+            opacity: 1;
+            /* 👇 保持 Y 轴的 -50% 居中，只改变 X 轴 👇 */
+            transform: translateY(-50%) translateX(0);
+        }
         
     /* --- 第二页的右侧内容样式 --- */
-        .half-side {
-    /* 因为你要求“直接在毛玻璃上编辑，不要额外边框” */
-    /* 所以这里绝对不写 background、border 或 box-shadow */
-             color: white; /* 设置文字颜色为白色，适应深色动态壁纸 */
-    /* 如果你需要文字有那种自适应反色的效果，也可以在这里加上 mix-blend-mode: difference; */
+        .schedule-section h2{
+            font-family: "Bitcount Grid Double Ink", system-ui;
+            font-optical-sizing: auto;
+            font-size: 32px;
+            font-style: normal;
+            font-variation-settings:
+                "slnt" 0,
+                "CRSV" 0.5,
+                "ELSH" 0,
+                "ELXP" 0,
+                "SZP1" 70,
+                "SZP2" 0,
+                "XPN1" 0,
+                "XPN2" 0,
+                "YPN1" 0,
+                "YPN2" 0;
         }
+
 /* 适配：如果屏幕小于 900px 折叠时，让文字框在手机上不要撑太宽 */
         @media (max-width: 900px) {
             .profile-box {
@@ -541,10 +744,34 @@
                 <p>Hello! I'm a passionate web developer with a love for creating dynamic and visually stunning websites. With a background in electronic engineering and a keen eye for design, I specialize in crafting seamless user experiences that blend functionality with aesthetics. When I'm not coding, you can find me exploring the latest tech trends, experimenting with new frameworks, or sharing my knowledge through blogging and open-source contributions. Let's connect and build something amazing together!</p>
             </p>
             </div>
+
+            <div class="contact-content contact-box">
+                <h2>Contact</h2>
+               <a href="https://github.com/yu200512" target="_blank" class="glossy-btn-colored " style="--btn-color: #24292e;">
+                    <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="btn-icon"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                    <span>GitHub</span>
+                </a>
+
+                <a href="https://space.bilibili.com/555165386" class="glossy-btn-colored" style="--btn-color: #00A1D6;">
+                    <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="btn-icon"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373Z"/></svg>
+                    <span>Bilibili</span>
+                </a>
+
+                <a href="mailto:2998925144@qq.com" class="glossy-btn-colored email-btn" style="--btn-color: #f2af1d;" data-email="2998925144@qq.com">
+                    <svg t="1774519465007" class="btn-icon" viewBox="0 0 3111 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4980" id="mx_n_1774519465008" style="width:60px; height:40px;"><path d="M656.566911 486.699854L242.31918 20.989751H0v991.915666h242.31918V305.66325l406.451537 465.710103 429.915081-483.064129V995.551391h242.31918v-206.973939c-78.149341-86.28287-117.242753-198.39063-117.242753-319.081698 0-129.424305 46.889605-241.532064 117.242753-319.081698V12.36896h-242.31918L656.604392 486.662372z" fill="#2C91DE" p-id="4981"></path><path d="M2141.704246 687.901611c-54.72328 0-93.779209 46.889605-93.779209 46.889604-171.966032 156.336164-422.081406 179.762225-617.510981 54.72328 93.779209 140.706296 250.115373 234.485505 429.91508 234.485505 148.502489 0 289.208785-62.519473 382.987994-171.966032 0 0 7.833675-39.093411 7.833675-62.519473-15.629868-62.519473-54.72328-101.612884-109.446559-101.612884z" fill="#ED4636" p-id="4982"></path><path d="M2485.63631 328.339678h211.059444v656.566911h-211.059444V328.339678zM2899.921523 0.037482H3110.980966v984.869107h-211.059443V0.037482zM2454.376574 132.910102c0 78.149341 62.519473 132.872621 132.872621 132.872621 78.149341 0 132.872621-62.519473 132.872621-132.872621S2657.602343 0.037482 2587.249195 0.037482s-132.872621 54.72328-132.872621 132.87262z" fill="#2C91DE" p-id="4983"></path><path d="M1954.108346 7.871157s-39.093411 7.833675-62.519473 23.463543c-39.093411 31.259736-54.72328 85.983016-23.463544 132.872621 31.259736 46.889605 85.983016 54.72328 85.983017 54.723279 117.242753 39.093411 218.855637 117.242753 289.208784 226.689312 46.889605 85.983016 70.353148 179.762225 62.519473 281.37511 78.149341-148.502489 78.149341-328.302196-7.833675-484.63836-78.149341-117.242753-203.225769-211.059444-343.932064-234.485505z" fill="#82D531" p-id="4984"></path><path d="M1555.490483 656.604392c31.259736-46.889605 7.833675-101.612884 7.833675-101.612884-31.259736-125.076428-7.833675-250.115373 54.72328-359.561933C1664.937042 109.446559 1743.123865 46.927086 1829.106881 0c-164.132357 7.833675-320.468521 93.779209-414.285212 250.115373-70.353148 125.076428-85.983016 273.578917-39.093411 414.285213 0 0 23.463543 23.463543 54.723279 39.093411 39.093411 23.463543 93.779209 7.833675 125.076428-46.889605z" fill="#F8BE32" p-id="4985"></path><path d="M2032.295168 570.621376c-7.833675-39.093411-39.093411-70.353148-39.093411-70.353148 7.833675-39.093411-7.833675-39.093411-7.833675-39.093411 0-117.242753-101.612884-109.446559-101.612884-109.446559s-101.612884 0-101.612885 109.446559c0 0-15.629868 7.833675-7.833675 39.093411 0 0-31.259736 23.463543-39.093411 70.353148 0 0-7.833675 70.353148 31.259736 7.833675 0 0 7.833675 23.463543 23.463544 39.093412 0 0-23.463543 7.833675-23.463544 31.259736 0 0 0 23.463543 54.72328 23.463543 0 0 39.093411 0 54.72328-23.463543h15.629868c15.629868 15.629868 54.72328 23.463543 54.72328 23.463543 62.519473 0 54.72328-23.463543 54.723279-23.463543 0-23.463543-23.463543-31.259736-23.463543-31.259736 15.629868-23.463543 23.463543-39.093411 23.463543-39.093412 39.093411 62.519473 31.259736-7.833675 31.259737-7.833675z" fill="#1599FF" p-id="4986"></path></svg>
+                    <span class="btn-text">QQ mail</span>
+                </a>
+
+                <a href="mailto:Yu624836586@gmail.com" class="glossy-btn-colored email-btn" style="--btn-color: rgb(255, 255, 255);" data-email="Yu624836586@gmail.com">
+                    <?xml version="1.0" ?><svg data-name="Layer 1" class="btn-icon" id="Layer_1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16.58,19.1068l-12.69-8.0757A3,3,0,0,1,7.1109,5.97l9.31,5.9243L24.78,6.0428A3,3,0,0,1,28.22,10.9579Z" fill="#ea4435"/><path d="M25.5,5.5h4a0,0,0,0,1,0,0v18a3,3,0,0,1-3,3h0a3,3,0,0,1-3-3V7.5a2,2,0,0,1,2-2Z" fill="#00ac47" transform="translate(53.0001 32.0007) rotate(180)"/><path d="M29.4562,8.0656c-.0088-.06-.0081-.1213-.0206-.1812-.0192-.0918-.0549-.1766-.0823-.2652a2.9312,2.9312,0,0,0-.0958-.2993c-.02-.0475-.0508-.0892-.0735-.1354A2.9838,2.9838,0,0,0,28.9686,6.8c-.04-.0581-.09-.1076-.1342-.1626a3.0282,3.0282,0,0,0-.2455-.2849c-.0665-.0647-.1423-.1188-.2146-.1771a3.02,3.02,0,0,0-.24-.1857c-.0793-.0518-.1661-.0917-.25-.1359-.0884-.0461-.175-.0963-.267-.1331-.0889-.0358-.1837-.0586-.2766-.0859s-.1853-.06-.2807-.0777a3.0543,3.0543,0,0,0-.357-.036c-.0759-.0053-.1511-.0186-.2273-.018a2.9778,2.9778,0,0,0-.4219.0425c-.0563.0084-.113.0077-.1689.0193a33.211,33.211,0,0,0-.5645.178c-.0515.022-.0966.0547-.1465.0795A2.901,2.901,0,0,0,23.5,8.5v5.762l4.72-3.3043a2.8878,2.8878,0,0,0,1.2359-2.8923Z" fill="#ffba00"/><path d="M5.5,5.5h0a3,3,0,0,1,3,3v18a0,0,0,0,1,0,0h-4a2,2,0,0,1-2-2V8.5a3,3,0,0,1,3-3Z" fill="#4285f4"/><path d="M2.5439,8.0656c.0088-.06.0081-.1213.0206-.1812.0192-.0918.0549-.1766.0823-.2652A2.9312,2.9312,0,0,1,2.7426,7.32c.02-.0475.0508-.0892.0736-.1354A2.9719,2.9719,0,0,1,3.0316,6.8c.04-.0581.09-.1076.1342-.1626a3.0272,3.0272,0,0,1,.2454-.2849c.0665-.0647.1423-.1188.2147-.1771a3.0005,3.0005,0,0,1,.24-.1857c.0793-.0518.1661-.0917.25-.1359A2.9747,2.9747,0,0,1,4.3829,5.72c.089-.0358.1838-.0586.2766-.0859s.1853-.06.2807-.0777a3.0565,3.0565,0,0,1,.357-.036c.076-.0053.1511-.0186.2273-.018a2.9763,2.9763,0,0,1,.4219.0425c.0563.0084.113.0077.169.0193a2.9056,2.9056,0,0,1,.286.0888,2.9157,2.9157,0,0,1,.2785.0892c.0514.022.0965.0547.1465.0795a2.9745,2.9745,0,0,1,.3742.21A2.9943,2.9943,0,0,1,8.5,8.5v5.762L3.78,10.9579A2.8891,2.8891,0,0,1,2.5439,8.0656Z" fill="#c52528"/></svg>                    
+                    <span class="btn-text">Gmail</span>
+                </a>
+
+            </div>
         </div>
 
-        <div class="half-side">
-            <h2>Change Logs</h2>
+        <div class="half-side schedule-section">
+            <h2>Schedules</h2>
             <p></p>
         </div>
 
