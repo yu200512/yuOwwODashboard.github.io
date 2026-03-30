@@ -9,3 +9,5 @@ It is only for personal use including blogs, linking pages and so on.
 2026/3/23 Now released on Github based on Github Pages & Render, available on https://yu200512.github.io/yuOwwODashboard.github.io/
 
 2026/3/24 Currently available on yuowwodashboard.xyz with HTTPS DNS equipped
+
+2026/3/30 Updates will be scheduled for once a week
