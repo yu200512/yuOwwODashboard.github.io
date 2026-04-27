@@ -849,14 +849,14 @@
         // -- 获取天气的逻辑 --
         function getWeather() {
             // 请求 wttr.in 接口，%l 代表基于 IP 的城市，%t 代表当前温度
-            fetch("https://wttr.in/shanghai%20pudong?format=%c\ShanghaiTech\:%C,+%t")
+            fetch("https://wttr.in/Shanghai+Pudong?format=%c+ShanghaiTech:+%C,+%t")
                 .then(res => {
-                    if (!res.ok) throw new Error("天气请求失败");
+                    if (!res.ok) throw new Error(`天气请求失败: ${res.status}`);
                     return res.text();
                 })
                 .then(text => {
-                    // 把获取到的文本（如：Singapore: +28°C）放进网页
-                    document.getElementById("weather").innerText = text;
+                    // 把获取到的文本放进网页
+                    document.getElementById("weather").innerText = text.trim();
                 })
                 .catch(error => {
                     console.error("天气获取失败:", error);
